@@ -94,7 +94,7 @@ public class PollController
     {
         if(pollId == null)
         {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Poll Not Found");
         }
     }
 }

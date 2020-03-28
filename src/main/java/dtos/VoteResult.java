@@ -1,17 +1,15 @@
 package dtos;
 
-import dtos.OptionCount;
-
 import java.util.Collection;
 public class VoteResult {
-    private int totalVotes;
+    private Integer totalVotes;
     private Collection<OptionCount> results;
 
-    public int getTotalVotes() {
+    public Integer getTotalVotes() {
         return totalVotes;
     }
 
-    public void setTotalVotes(int totalVotes) {
+    public void setTotalVotes(Integer totalVotes) {
         this.totalVotes = totalVotes;
     }
 

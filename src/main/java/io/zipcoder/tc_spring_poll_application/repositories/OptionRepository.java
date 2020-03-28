@@ -2,6 +2,7 @@ package io.zipcoder.tc_spring_poll_application.repositories;
 
 import io.zipcoder.tc_spring_poll_application.domain.Option;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface OptionRepository extends CrudRepository<Option, Long> {
+public interface OptionRepository extends PagingAndSortingRepository<Option, Long> {
 }

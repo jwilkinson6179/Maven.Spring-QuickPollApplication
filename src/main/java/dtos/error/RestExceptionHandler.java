@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,13 +26,16 @@ public class RestExceptionHandler
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request)
     {
-        // String title, Integer status, String detail, Long timeStamp, String developerMessage
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        rnfe.printStackTrace(pw);
+
         // TODO: Figure out the proper title?
         ErrorDetail error = new ErrorDetail("Resource Not Found",
                 HttpStatus.NOT_FOUND.value(),
-                rnfe.getMessage(),
+                sw.toString(),
                 new Date().getTime(),
-                rnfe.getCause().getMessage());
+                rnfe.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -38,11 +43,15 @@ public class RestExceptionHandler
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationError(MethodArgumentNotValidException manve, HttpServletRequest request)
     {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        manve.printStackTrace(pw);
+
         ErrorDetail errorDetail = new ErrorDetail("Invalid Argument",
                 HttpStatus.BAD_REQUEST.value(),
-                manve.getMessage(),
+                sw.toString(),
                 new Date().getTime(),
-                manve.getCause().getMessage());
+                manve.getMessage());
 
         List<FieldError> fieldErrors =  manve.getBindingResult().getFieldErrors();
         for(FieldError fe : fieldErrors) {
