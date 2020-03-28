@@ -9,10 +9,10 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "VOTE_ID")
-    Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "OPTION_ID")
-    Option option;
+    private Option option;
 
     public Long getId() {
         return id;
