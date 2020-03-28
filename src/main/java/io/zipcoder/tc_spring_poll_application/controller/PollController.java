@@ -4,11 +4,12 @@ import io.zipcoder.tc_spring_poll_application.domain.Poll;
 import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -23,10 +24,33 @@ public class PollController
         this.pollRepository = pollRepository;
     }
 
-    @RequestMapping(value="/polls", method= RequestMethod.GET)
-    public ResponseEntity<Iterable<Poll>> getAllPolls() {
-        Iterable<Poll> allPolls = pollRepository.findAll();
-        return new ResponseEntity<>(allPolls, HttpStatus.OK);
+//    NO PAGINATION
+//    @GetMapping("/polls")
+//    public ResponseEntity<Iterable<Poll>> getAllPolls() {
+//        Iterable<Poll> allPolls = pollRepository.findAll();
+//        return new ResponseEntity<>(allPolls, HttpStatus.OK);
+//    }
+
+// TODO: Get this type of pagination
+
+//    @RequestMapping(value = "admin/foo",params = { "page", "size" },method = RequestMethod.GET)
+//    @ResponseBody
+//    public List<Poll> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size,
+//            UriComponentsBuilder uriBuilder, HttpServletResponse response)
+//    {
+//        Page<Poll> resultPage = service.findPaginated(page, size);
+//        if( page > resultPage.getTotalPages() ){
+//            throw new ResourceNotFoundException();
+//        }
+//        eventPublisher.publishEvent(new PaginatedResultsRetrievedEvent<Poll>
+//                (Poll.class, uriBuilder, response, page, resultPage.getTotalPages(), size));
+//
+//        return resultPage.getContent();
+//    }
+
+    @GetMapping("/polls")
+    public Page<Poll> getAllPolls(Pageable pageable) {
+        return pollRepository.findAll(pageable);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
